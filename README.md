@@ -3,7 +3,7 @@
 This code is for me to practice some D3 with React.
 
 To start this app:
-- git clone git@github.com:daniellecloss/react-d3-dom-code.git
+- git clone git@github.com:daniellecloss/react-d3-linegraph.git
 - npm install
 - npm run app
 
