@@ -1,6 +1,6 @@
-# react-d3-dom-code
+# react-d3-linegraph
 
-This is example code to show how you can use React with D3.
+This code is for me to practice some D3 with React.
 
 To start this app:
 - git clone git@github.com:daniellecloss/react-d3-dom-code.git
