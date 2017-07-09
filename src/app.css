@@ -1,0 +1,31 @@
+body {
+	font-family: Arial;
+	text-align: center;
+}
+section {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+h1 {font-size: 20px;}
+span {color: #006699;}
+form {
+	background-color: #ddd;
+	padding: 2%;
+	text-align: left;
+	height: 8%;
+	margin: 1% 0 0;
+}
+.bar_chart_container {
+	height: 65%;
+	background-color: #ddd;
+	padding: 2%;
+}
+#bar_chart{
+	padding-left: 20px;
+    padding-bottom: 25px;
+    padding-top: 20px;
+}
+.axis--x path {
+  display: none;
+}
