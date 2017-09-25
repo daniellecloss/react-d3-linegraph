@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+  var svg = d3.select("svg"),
+      margin = {top: 20, right: 20, bottom: 30, left: 150},
+      width = +svg.attr("width") - margin.left - margin.right,
+      height = +svg.attr("height") - margin.top - margin.bottom,
+      g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+  var salesData = [
+    {
+      "name": "CustomerA",
+      "in": [
+        {
+          "y": 79871250.6329114,
+          "x": 1506202620
+        },
+        {
+          "y": 79922167.0886076,
+          "x": 1506202699
+        },
+        {
+          "y": 80281701.26582278,
+          "x": 1506202778
+        },
+        {
+          "y": 79163807.59493671,
+          "x": 1506202857
+        },
+        {
+          "y": 78868435.44303797,
+          "x": 1506202936
+        },
+        {
+          "y": 78730248.10126582,
+          "x": 1506203015
+        }
+      ]
+    },
+    {
+      "name": "CustomerB",
+      "in": [
+        {
+          "y": 35907443.037974685,
+          "x": 1506202620
+        },
+        {
+          "y": 34854805.06329114,
+          "x": 1506202699
+        },
+        {
+          "y": 35809093.67088608,
+          "x": 1506202778
+        },
+        {
+          "y": 34081437.974683546,
+          "x": 1506202857
+        },
+        {
+          "y": 34622055.69620253,
+          "x": 1506202936
+        },
+        {
+          "y": 34863048.101265825,
+          "x": 1506203015
+        }
+      ]
+    },
+    {
+        "name": "CustomerC",
+        "in": [
+          {
+            "y": 1449822.7848101265,
+            "x": 1506202620
+          },
+          {
+            "y": 1674410.1265822784,
+            "x": 1506202699
+          },
+          {
+            "y": 1624627.8481012657,
+            "x": 1506202778
+          },
+          {
+            "y": 1442875.9493670885,
+            "x": 1506202857
+          },
+          {
+            "y": 1964354.430379747,
+            "x": 1506202936
+          },
+          {
+            "y": 1424384.8101265824,
+            "x": 1506203015
+          }
+        ]
+    },
+  ];
+
+  function parseDate(timestamp) {
+    return new Date(timestamp * 1000);
+  }
+
+  var data = [];
+  salesData.forEach(function(customer){
+
+  	var newData = {};
+	  customer.in.forEach(function(point) {
+        newData.name = customer.name;
+        newData.x = parseDate(point.x);
+        newData.y = point.y;
+        data.push(newData);
+    })
+  });
+
+  // var x = d3.scaleTime().range([0, width]);
+  // x.domain(d3.extent(data, function(d) {
+  //   return d.date;
+  // }));
+
+  // var y = d3.scaleLinear().range([height, 0]);
+  // y.domain([0, d3.max(data, function(d) {
+	 //  return Math.max(d.x, d.y); })]);
+
+var timeFormat = d3.timeFormat("%I:%M %p %a %Y");
+
+  var x = d3.scaleTime()
+      .rangeRound([0, width])
+      .domain(d3.extent(data, function(d) {
+        return d.x;
+      }));
+
+  var y = d3.scaleLinear()
+      .rangeRound([height, 0])
+      .domain(d3.extent(data, function(d) {
+        return d.y;
+      }));
+
+  g.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+      .select(".domain")
+
+  g.append("g")
+      .call(d3.axisLeft(y))
+      .append("text")
+      .attr("fill", "#000")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end");
+
+
+  // var line = d3.line()
+  //     .x(function(d) {
+  //     	return x(d.date);
+  //     })
+  //     .y(function(d) {
+  //     	return y(d.x);
+  //     });
+
+  // var line2 = d3.line()
+  //     .x(function(d) {
+  //     	return x(d.date);
+  //     })
+  //     .y(function(d) {
+  //     	return y(d.y);
+  //     });
+
+
+
+  // g.append("path")
+  //     .datum(data)
+  //     .attr("fill", "none")
+  //     .attr("stroke", "steelblue")
+  //     .attr("stroke-linejoin", "round")
+  //     .attr("stroke-linecap", "round")
+  //     .attr("stroke-width", 1.5)
+  //     .attr("d", line);
+
+  // g.append("path")
+  //     .datum(data)
+  //     .attr("fill", "none")
+  //     .attr("stroke", "steelblue")
+  //     .attr("stroke-linejoin", "round")
+  //     .attr("stroke-linecap", "round")
+  //     .attr("stroke-width", 1.5)
+  //     .attr("d", line2);
+
+</script>

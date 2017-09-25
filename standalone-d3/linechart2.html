@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+  var svg = d3.select("svg"),
+      margin = {top: 20, right: 20, bottom: 30, left: 50},
+      width = +svg.attr("width") - margin.left - margin.right,
+      height = +svg.attr("height") - margin.top - margin.bottom,
+      g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var year = '2017'.substr(2,2);
+
+  var salesData = [
+      { month: "Jan", min: 40, max: 50 },
+      { month: 'Feb', min: 50, max: 50 },
+      { month: 'Mar', min: 65, max: 50 },
+      { month: 'Apr', min: 60, max: 50 },
+      { month: 'May', min: 70, max: 50 },
+      { month: 'Jun', min: 55, max: 50 },
+      { month: 'Jul', min: 80, max: 50 },
+      { month: 'Aug', min: 55, max: 50 },
+      { month: 'Sep', min: 75, max: 50 },
+      { month: 'Oct', min: 50, max: 50 },
+      { month: 'Nov', min: 60, max: 50 },
+      { month: 'Dec', min: 75, max: 50 }
+  ];
+
+  var parseDateFormat = d3.timeParse("%b-%y");
+
+  function parseDate(month, year) {
+  	var d = {};
+      d = parseDateFormat(month + '-' + year);
+      // d.close = +d.close;
+      return d;
+  }
+
+  var data = [];
+  salesData.forEach(function(d){
+  	var newData = {};
+	      newData.date = parseDate(d.month, year);
+	      newData.min = +d.min;
+	      newData.max = +d.max;
+	      data.push(newData);
+  });
+
+  // var x = d3.scaleTime()
+  //     .rangeRound([0, width])
+  //     .domain(d3.extent(data, function(d) {
+  //       return d.date;
+  //     }));
+
+  var x = d3.scaleTime().range([0, width]);
+  x.domain(d3.extent(data, function(d) { 
+    return d.date; 
+  }));
+
+  var y = d3.scaleLinear().range([height, 0]);
+  y.domain([0, d3.max(data, function(d) {
+	  return Math.max(d.min, d.max); })]);
+
+  g.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+      .select(".domain")
+      .remove();
+
+  g.append("g")
+      .call(d3.axisLeft(y))
+      .append("text")
+      .attr("fill", "#000")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end");
+
+
+  var line = d3.line()
+      .x(function(d) { 
+      	return x(d.date); 
+      })
+      .y(function(d) { 
+      	return y(d.min); 
+      });
+
+  var line2 = d3.line()
+      .x(function(d) { 
+      	return x(d.date); 
+      })
+      .y(function(d) { 
+      	return y(d.max); 
+      });
+
+
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", line);
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", line2);
+
+</script>
